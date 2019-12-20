@@ -26,6 +26,14 @@ disp("norm of betas:");
 disp(norm(beta_OLS,2));
 disp(norm(beta_L2,2));
 
+% display test R^2
+R2_OLS = sum((Xtest*beta_OLS - mean(Ytest)).^2)/sum((Ytest - mean(Ytest)).^2);
+R2_L2 = sum((Xtest*beta_L2 - mean(Ytest)).^2)/sum((Ytest - mean(Ytest)).^2);
+disp("R2 of OLS:");
+disp(R2_OLS);
+disp("R2 of L2:");
+disp(R2_L2);
+
 % comment: in L2 regularization, the norm of beta(coefficient vector) is
 % restricted, thus the optimal solution won't be influenced too much by
 % irregular data.
@@ -52,7 +60,7 @@ end
 % get best lambda
 k = 5;
 m = 30;
-bestLambda = kFoldCV(Xtrain, Ytrain, k, m, lambdaArray);
+bestLambda = stochasticCV(Xtrain, Ytrain, k, m, lambdaArray);
 
 % deploy best lambda on the test data
 cvLambdaStruct = workFlow(Xtrain, Xtest, Ytrain, Ytest, bestLambda);
@@ -62,7 +70,7 @@ cvTestR2 = cvLambdaStruct.test;
 % problem 2.2
 % solve L2 regularization
 function betas = closed_form_2(Y,X,lambda)
-    I = ones(size(X'*X));
+    I = eye(size(X'*X,1));
     betas = (X'*X + lambda * I)\(X'*Y);
 end
 
@@ -96,8 +104,8 @@ function R2TrainTest = workFlow(Xtrain, Xtest, Ytrain, Ytest, lambda)
     R2TrainTest.test = R2test;
 end
 
-% k-fold cross validation
-function bestLambda = kFoldCV(Xtrain, Ytrain, k, m, lambdaArray)
+% cross validation
+function bestLambda = stochasticCV(Xtrain, Ytrain, k, m, lambdaArray)
     %for each lambda do:
     minMeanMSE = inf;
     bestLambda = lambdaArray(1);

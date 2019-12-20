@@ -32,4 +32,4 @@ Yhat_test = Xtest*bestBetas + FitInfo.Intercept(FitInfo.Index1SE);
 SST_test = sum((Ytest - mean(Ytest)).^2);
 SSR_test = sum((Yhat_test - mean(Ytest)).^2);
 R2test_LASSO = SSR_test / SST_test;
-R2test_Ridge = 0.5817;
+
