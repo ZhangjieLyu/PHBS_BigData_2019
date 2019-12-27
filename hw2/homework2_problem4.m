@@ -13,7 +13,7 @@ function [x, funcVal] = homework2_problem4(func, x0, Ytrain, Xtrain)
     while gap>threshold && iterTimes < iterMax     
         [funcVal, grad] = feval(func, x, Ytrain, Xtrain);
         xNew = x - learningRate*grad;
-        gap = norm(xNew - x, 2);
+        gap = norm(Xtrain*xNew - Ytrain, 2);
         x = xNew;
         iterTimes = iterTimes + 1;
     end
