@@ -461,6 +461,10 @@ R2test_LASSO =
 
 
 ## problem 4
+**Math solution**
+$\nabla_{\beta} Cost = -2X^T Y + 2X^TX\beta$
+$beta_{i+1} = beta{i} - \alpha * \nabla_{\beta} Cost$
+stop iteration if no significant improvement on cost function.
 
 **code solution**
 
