@@ -463,7 +463,8 @@ R2test_LASSO =
 ## problem 4
 **Math solution**
 $\nabla_{\beta} Cost = -2X^T Y + 2X^TX\beta$
-$beta_{i+1} = beta{i} - \alpha * \nabla_{\beta} Cost$
+
+$\beta_{i+1} = \beta_{i} - \alpha  \nabla_{\beta} Cost$
 stop iteration if no significant improvement on cost function.
 
 **code solution**
@@ -484,7 +485,7 @@ function [x, funcVal] = homework2_problem4(func, x0, Ytrain, Xtrain)
     while gap>threshold && iterTimes < iterMax     
         [funcVal, grad] = feval(func, x, Ytrain, Xtrain);
         xNew = x - learningRate*grad;
-        gap = norm(xNew - x, 2);
+        gap = norm(Xtrain*xNew - Ytrain, 2);
         x = xNew;
         iterTimes = iterTimes + 1;
     end
